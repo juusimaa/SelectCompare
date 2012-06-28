@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<settings>
+    <utilities>
+        <utility name="KDiff3">
+            <executable>C:\Program Files\KDiff3\kdiff3.exe</executable>
+            <default>true</default>
+            <ext>.c</ext>
+            <ext>.cpp</ext>
+            <ext>.h</ext>
+			<ext>.py</ext>
+			<ext>.cs</ext>
+			<ext>.xml</ext>
+        </utility>
+    </utilities>
+</settings>
