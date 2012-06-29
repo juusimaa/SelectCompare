@@ -65,7 +65,8 @@ namespace SelectCompare
         }
 
         /// <summary>
-        /// 
+        /// Try to find correct utility based on file extension. If utility is not
+        /// found returns default utility.
         /// </summary>
         /// <param name="p_utils"></param>
         /// <param name="p_extension"></param>
@@ -83,6 +84,12 @@ namespace SelectCompare
                             return utility;
                     }
                 }
+            }
+
+            foreach (Util u in p_utils)
+            {
+                if (u.Default == true)
+                    return u;
             }
             return null;
         }
@@ -154,7 +161,9 @@ namespace SelectCompare
                             if (node4.Name.CompareTo("mergeCommand") == 0)
                                 tmp.MergeTemplate = node4.InnerText;
                             if (node4.Name.CompareTo("diffCommand") == 0)
-                                tmp.DiffTemplate = node4.InnerText;                         
+                                tmp.DiffTemplate = node4.InnerText;
+                            if (node4.Name.CompareTo("default") == 0)
+                                tmp.Default = Convert.ToBoolean(node4.InnerText);
                         }
                         p_utils.Add(tmp);
                     }
@@ -176,6 +185,7 @@ namespace SelectCompare
         private string m_baseFile;
         private string m_mergeTemplate;
         private string m_diffTemplate;
+        private bool m_default;
         private List<string> m_extensions;
 
         public Util()
@@ -209,6 +219,15 @@ namespace SelectCompare
             command = command.Replace("$REMOTE", m_remoteFile);
 
             return command;
+        }        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool Default
+        {
+            get { return m_default; }
+            set { m_default = value; }
         }
                 
         /// <summary>

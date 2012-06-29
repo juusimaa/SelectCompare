@@ -2,9 +2,10 @@
 <settings>
     <utilities>
         <utility name="KDiff3">
+			<default>TRUE</default>
             <executable>C:\Program Files\KDiff3\kdiff3.exe</executable>
             <mergeCommand>-b $BASE $LOCAL $REMOTE -o $MERGED --auto</mergeCommand>
-			<diffCommand>$LOCAL $REMOTE</diffCommand>
+			<diffCommand>$LOCAL $REMOTE</diffCommand>			
             <ext>.c</ext>
             <ext>.cpp</ext>
             <ext>.h</ext>
@@ -15,6 +16,7 @@
 			<ext>.m</ext>
 			<ext>.py</ext>
 			<ext>.rc</ext>
+			<ext>.sln</ext>
         </utility>
 		<utility name="Rhapsody DiffMerge">
             <executable>c:\win32app\Rhapsody\DiffMerge.exe</executable>
