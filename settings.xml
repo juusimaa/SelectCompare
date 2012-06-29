@@ -3,13 +3,31 @@
     <utilities>
         <utility name="KDiff3">
             <executable>C:\Program Files\KDiff3\kdiff3.exe</executable>
-            <default>true</default>
+            <merge>-m</merge>
+			<base>-b</base>
+			<output>-o</output>
+			<extraoptions>--auto</extraoptions>
             <ext>.c</ext>
             <ext>.cpp</ext>
             <ext>.h</ext>
 			<ext>.py</ext>
 			<ext>.cs</ext>
 			<ext>.xml</ext>
+			<ext>.txt</ext>
+			<ext>.m</ext>
+			<ext>.py</ext>
+			<ext>.rc</ext>
         </utility>
+		<utility name="Rhapsody DiffMerge">
+            <executable>c:\win32app\Rhapsody\DiffMerge.exe</executable>
+            <ext>.sbs</ext>
+            <ext>.cmp</ext>
+			<ext>.omd</ext>	
+			<ext>.cls</ext>
+			<merge>-merge</merge>
+			<base>-base</base>
+			<output>-out</output>
+			<extraoptions>--auto</extraoptions>
+		</utility>
     </utilities>
 </settings>
