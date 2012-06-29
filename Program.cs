@@ -9,7 +9,7 @@ namespace SelectCompare
     class Program
     {
         /// <summary>
-        /// 
+        /// Usage: SelectCompare.exe "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
         /// </summary>
         /// <param name="args"></param>
         static int Main(string[] args)
@@ -95,7 +95,11 @@ namespace SelectCompare
         /// <returns></returns>
         private static string getDiffCommand(Util p_selectedUtil, string[] p_args)
         {
-            return " " + p_args[0] + " " + p_args[1];
+            int index = 0;
+            p_selectedUtil.LOCAL = p_args[index++];
+            p_selectedUtil.REMOTE = p_args[index++];
+
+            return p_selectedUtil.GetDiffCommand();
         }
 
         /// <summary>
@@ -107,23 +111,12 @@ namespace SelectCompare
         private static string getMergeCommand(Util p_selectedUtil, string[] p_args)
         {
             int index = 0;
-            string command = string.Empty;
+            p_selectedUtil.BASE = p_args[index++];
+            p_selectedUtil.LOCAL = p_args[index++];
+            p_selectedUtil.REMOTE = p_args[index++];
+            p_selectedUtil.MERGED = p_args[index++];
 
-            foreach (string str in p_args)
-            {
-                if (str.CompareTo(p_selectedUtil.BaseSwitch) == 0)
-                    command += " " + str + " " + p_args[index + 1];
-                else if (str.CompareTo(p_selectedUtil.OutputSwitch) == 0)
-                    command += " " + str + " " + p_args[index + 1];
-                else if (str.CompareTo(p_selectedUtil.MergeSwitch) == 0)
-                    command += " " + str + " " + p_args[index + 1];
-                else if (str.Contains(p_selectedUtil.ExtraOptions))
-                    command += " " + str;
-                
-                index++;
-            }
-
-            return command;
+            return p_selectedUtil.GetMergeCommand();
         }
 
         /// <summary>
@@ -158,14 +151,10 @@ namespace SelectCompare
                                 tmp.Exe = node4.InnerText;
                             if (node4.Name.CompareTo("ext") == 0)
                                 tmp.Extensions.Add(node4.InnerText);
-                            if (node4.Name.CompareTo("merge") == 0)
-                                tmp.MergeSwitch = node4.InnerText;
-                            if (node4.Name.CompareTo("base") == 0)
-                                tmp.BaseSwitch = node4.InnerText;
-                            if (node4.Name.CompareTo("output") == 0)
-                                tmp.OutputSwitch = node4.InnerText;
-                            if (node4.Name.CompareTo("extraoptions") == 0)
-                                tmp.ExtraOptions = node4.InnerText;
+                            if (node4.Name.CompareTo("mergeCommand") == 0)
+                                tmp.MergeTemplate = node4.InnerText;
+                            if (node4.Name.CompareTo("diffCommand") == 0)
+                                tmp.DiffTemplate = node4.InnerText;                         
                         }
                         p_utils.Add(tmp);
                     }
@@ -181,9 +170,12 @@ namespace SelectCompare
     {
         private string m_name;
         private string m_exe;
-        private string m_extra;
-        private string m_baseSwitch;
-        private string m_outputSwitch;
+        private string m_mergedFile;
+        private string m_remoteFile;
+        private string m_localFile;
+        private string m_baseFile;
+        private string m_mergeTemplate;
+        private string m_diffTemplate;
         private List<string> m_extensions;
 
         public Util()
@@ -191,44 +183,88 @@ namespace SelectCompare
             m_extensions = new List<string>();
         }
 
-        private string m_mergeSwitch;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public string GetMergeCommand()
+        {
+            string command = m_mergeTemplate;
+            command = command.Replace("$BASE", m_baseFile);
+            command = command.Replace("$LOCAL", m_localFile);
+            command = command.Replace("$REMOTE", m_remoteFile);
+            command = command.Replace("$MERGED", m_mergedFile);
+
+            return command;
+        }
 
         /// <summary>
-        /// Swtich for merge input file.
+        /// 
         /// </summary>
-        public string MergeSwitch
+        /// <returns></returns>
+        public string GetDiffCommand()
         {
-            get { return m_mergeSwitch; }
-            set { m_mergeSwitch = value; }
-        }        
+            string command = m_diffTemplate;
+            command = command.Replace("$LOCAL", m_localFile);
+            command = command.Replace("$REMOTE", m_remoteFile);
+
+            return command;
+        }
+                
+        /// <summary>
+        /// 
+        /// </summary>
+        public string MergeTemplate
+        {
+            get { return m_mergeTemplate; }
+            set { m_mergeTemplate = value; }
+        }
+                
+        /// <summary>
+        /// 
+        /// </summary>
+        public string DiffTemplate
+        {
+            get { return m_diffTemplate; }
+            set { m_diffTemplate = value; }
+        }
 
         /// <summary>
-        /// Swtich for base file.
+        /// 
         /// </summary>
-        public string BaseSwitch
+        public string MERGED
         {
-            get { return m_baseSwitch; }
-            set { m_baseSwitch = value; }
+            get { return m_mergedFile; }
+            set { m_mergedFile = value; }
         }       
 
         /// <summary>
-        /// Switch for output file.
+        /// 
         /// </summary>
-        public string OutputSwitch
+        public string REMOTE
         {
-            get { return m_outputSwitch; }
-            set { m_outputSwitch = value; }
+            get { return m_remoteFile; }
+            set { m_remoteFile = value; }
         }        
 
         /// <summary>
-        /// Extra command line switches for utility.
+        /// 
         /// </summary>
-        public string ExtraOptions
+        public string LOCAL
         {
-            get { return m_extra; }
-            set { m_extra = value; }
+            get { return m_localFile; }
+            set { m_localFile = value; }
+        }        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string BASE
+        {
+            get { return m_baseFile; }
+            set { m_baseFile = value; }
         }
-	
+              	
         /// <summary>
         /// Utility name.
         /// </summary>

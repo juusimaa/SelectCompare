@@ -3,10 +3,8 @@
     <utilities>
         <utility name="KDiff3">
             <executable>C:\Program Files\KDiff3\kdiff3.exe</executable>
-            <merge>-m</merge>
-			<base>-b</base>
-			<output>-o</output>
-			<extraoptions>--auto</extraoptions>
+            <mergeCommand>-b $BASE $LOCAL $REMOTE -o $MERGED --auto</mergeCommand>
+			<diffCommand>$LOCAL $REMOTE</diffCommand>
             <ext>.c</ext>
             <ext>.cpp</ext>
             <ext>.h</ext>
@@ -20,14 +18,12 @@
         </utility>
 		<utility name="Rhapsody DiffMerge">
             <executable>c:\win32app\Rhapsody\DiffMerge.exe</executable>
+			<mergeCommand>-merge -recursive $LOCAL $REMOTE -base $BASE -out $MERGED -xmerge</mergeCommand>
+			<diffCommand>$LOCAL $REMOTE</diffCommand>
             <ext>.sbs</ext>
             <ext>.cmp</ext>
 			<ext>.omd</ext>	
 			<ext>.cls</ext>
-			<merge>-merge</merge>
-			<base>-base</base>
-			<output>-out</output>
-			<extraoptions>--auto</extraoptions>
 		</utility>
     </utilities>
 </settings>
