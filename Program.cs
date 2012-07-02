@@ -14,6 +14,12 @@ namespace SelectCompare
         /// <param name="args"></param>
         static int Main(string[] args)
         {
+            if (args.Length < 2)
+            {
+                System.Console.WriteLine("ERROR: Not enough arguments.");
+                return -1;
+            }
+
             List<Util> m_utils = new List<Util>();
             parseSettings(AppDomain.CurrentDomain.BaseDirectory + "\\settings.xml", ref m_utils);
             if (m_utils == null)
