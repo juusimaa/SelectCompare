@@ -51,7 +51,7 @@ namespace SelectCompare
             try
             {
                 System.Console.WriteLine("Using utility " + selectedUtility.Name);
-                System.Console.WriteLine("Command: " + startInfo.FileName + startInfo.Arguments);
+                System.Console.WriteLine("Command line: " + startInfo.FileName + " " + startInfo.Arguments);
                 process.StartInfo = startInfo;
                 process.Start();
                 process.WaitForExit();
